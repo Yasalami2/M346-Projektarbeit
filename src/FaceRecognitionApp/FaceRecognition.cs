@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Amazon.Lambda.Core;
@@ -14,78 +16,96 @@ namespace FaceRecognitionLambda
 {
     public class FaceRecognitionFunction
     {
-        private readonly IAmazonRekognition _rekognitionClient;
-        private readonly IAmazonS3 _s3Client;
+        private static readonly JsonSerializerOptions JsonOpts = new() { WriteIndented = true };
 
-        private readonly string _outputBucketName;
+        private readonly IAmazonRekognition _rekognition;
+        private readonly IAmazonS3 _s3;
+        private readonly string _outputBucket;
+        private readonly string _outputPrefix;
 
         public FaceRecognitionFunction()
         {
-            _rekognitionClient = new AmazonRekognitionClient();
-            _s3Client = new AmazonS3Client();
+            _rekognition = new AmazonRekognitionClient();
+            _s3          = new AmazonS3Client();
 
-            _outputBucketName = Environment.GetEnvironmentVariable("OUTPUT_BUCKET")
-                ?? throw new Exception("Environment variable OUTPUT_BUCKET is not set.");
+            _outputBucket = Environment.GetEnvironmentVariable("OUTPUT_BUCKET")
+                            ?? throw new Exception("Environment variable OUTPUT_BUCKET is not set.");
+
+            _outputPrefix = Environment.GetEnvironmentVariable("OUTPUT_PREFIX") ?? string.Empty;
         }
 
         public async Task FunctionHandler(S3Event evnt, ILambdaContext context)
         {
-            context.Logger.LogLine($"OUTPUT_BUCKET (Env): {_outputBucketName}");
-
-            foreach (var record in evnt.Records)
+            try
             {
-                var s3 = record.S3;
-                var inputBucket = s3.Bucket.Name;
-                var key = s3.Object.Key;
+                context.Logger.LogLine($"OUTPUT_BUCKET:  {_outputBucket}");
+                context.Logger.LogLine($"OUTPUT_PREFIX:  {_outputPrefix}");
 
-                context.Logger.LogLine("Neues Objekt im Input-Bucket erkannt:");
-                context.Logger.LogLine($"Input-Bucket: {inputBucket}");
-                context.Logger.LogLine($"Key:          {key}");
-
-                var request = new RecognizeCelebritiesRequest
+                foreach (var record in evnt.Records)
                 {
-                    Image = new Image
+                    var inputBucket = record.S3.Bucket.Name;
+                    var rawKey      = record.S3.Object.Key;
+
+                    var inputKey = Uri.UnescapeDataString(rawKey).Replace('+', ' ');
+
+                    context.Logger.LogLine("Neues Objekt erkannt:");
+                    context.Logger.LogLine($"  Bucket: {inputBucket}");
+                    context.Logger.LogLine($"  Key   : {inputKey}");
+
+                    var recReq = new RecognizeCelebritiesRequest
                     {
-                        S3Object = new Amazon.Rekognition.Model.S3Object
+                        Image = new Image
                         {
-                            Bucket = inputBucket,
-                            Name = key
+                            S3Object = new Amazon.Rekognition.Model.S3Object
+                            {
+                                Bucket = inputBucket,
+                                Name   = inputKey
+                            }
                         }
-                    }
-                };
+                    };
 
-                var response = await _rekognitionClient.RecognizeCelebritiesAsync(request);
+                    var recRes = await _rekognition.RecognizeCelebritiesAsync(recReq);
 
-                var result = new
-                {
-                    InputBucket = inputBucket,
-                    InputKey = key,
-                    Celebrities = response.CelebrityFaces,   
-                    UnrecognizedFaces = response.UnrecognizedFaces.Count,
-                    Timestamp = DateTime.UtcNow
-                };
+                    var payload = new
+                    {
+                        Source = new { Bucket = inputBucket, Key = inputKey },
+                        Count  = recRes.CelebrityFaces?.Count ?? 0,
+                        Celebrities = recRes.CelebrityFaces?.Select(c => new
+                        {
+                            c.Id,
+                            c.Name,
+                            c.MatchConfidence,
+                            BoundingBox = c.Face?.BoundingBox,
+                            Urls        = c.Urls
+                        }),
+                        UnrecognizedFaces = recRes.UnrecognizedFaces?.Count ?? 0,
+                        TimestampUtc = DateTime.UtcNow
+                    };
 
-                var json = JsonSerializer.Serialize(
-                    result,
-                    new JsonSerializerOptions { WriteIndented = true }
-                );
+                    var json = JsonSerializer.Serialize(payload, JsonOpts);
 
-                var outputKey = key + ".json";
+                    var prefix  = string.IsNullOrWhiteSpace(_outputPrefix)
+                                    ? string.Empty
+                                    : (_outputPrefix.EndsWith("/") ? _outputPrefix : _outputPrefix + "/");
+                    var outKey  = prefix + Path.GetFileName(inputKey) + ".json";
 
-                context.Logger.LogLine($"Schreibe Ergebnis nach Output-Bucket:");
-                context.Logger.LogLine($"Output-Bucket:  {_outputBucketName}");
-                context.Logger.LogLine($"Output-Key:     {outputKey}");
+                    var putReq = new PutObjectRequest
+                    {
+                        BucketName  = _outputBucket,
+                        Key         = outKey,
+                        ContentBody = json,
+                        ContentType = "application/json"
+                    };
 
-                var putRequest = new PutObjectRequest
-                {
-                    BucketName = _outputBucketName,
-                    Key = outputKey,
-                    ContentBody = json
-                };
+                    await _s3.PutObjectAsync(putReq);
 
-                await _s3Client.PutObjectAsync(putRequest);
-
-                context.Logger.LogLine("Ergebnis-JSON erfolgreich geschrieben.");
+                    context.Logger.LogLine($"OK: Ergebnis geschrieben nach s3://{_outputBucket}/{outKey}");
+                }
+            }
+            catch (Exception ex)
+            {
+                context.Logger.LogLine("ERROR: " + ex);
+                throw; 
             }
         }
     }
