@@ -1,6 +1,6 @@
 set -e
 
-REGION="eu-central-1"
+REGION="us-east-1"
 
 OUTPUT_BUCKET="m346-fr-output-facerec-2025"
  

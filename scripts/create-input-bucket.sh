@@ -1,6 +1,6 @@
 set -e
  
-REGION="eu-central-1"
+REGION="us-east-1"
 INPUT_BUCKET="m346-fr-input-facerec-2025"
  
 echo "Region:       $REGION"
