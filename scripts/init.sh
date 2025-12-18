@@ -115,7 +115,7 @@ aws s3api put-bucket-notification-configuration \
 # --------------------------------------
 echo "--- Suche Testbild für Validierung ---"
 # Sucht das erste Bild im Projektordner
-TEST_IMAGE=$(find "$BASE_DIR" -name "*.jpg" -o -name "*.png" | head -n 1)
+TEST_IMAGE=$(find "$BASE_DIR" -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" | head -n 1)
 
 if [ -n "$TEST_IMAGE" ]; then
     FILE_NAME=$(basename "$TEST_IMAGE")
