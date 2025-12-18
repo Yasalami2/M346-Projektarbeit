@@ -10,11 +10,11 @@ In diesem Bericht zeigen wir, dass unsere Gesichtserkennung in der AWS Cloud fun
 
 ## 1. Was haben wir getestet?
 
-| Nr. | Testfall | Ziel | Status |
+| ID. | Testfall | Ziel | Status |
 |:--- |:--- |:--- |:--- |
-| 1 | Star erkennen | Erkennt das System Jeff Bezos? | ✅ OK |
-| 2 | Normale Person | Erkennt das System, dass kein Star da ist? | ✅ OK |
-| 3 | Automatik | Läuft das ganze Script von alleine durch? | ✅ OK |
+| T1 | Star erkennen | Erkennt das System Jeff Bezos? | ✅ OK |
+| T2 | Normale Person | Erkennt das System, dass kein Star da ist? | ✅ OK |
+| T3 | Automatik | Läuft das ganze Script von alleine durch? | ✅ OK |
 
 ---
 
