@@ -14,8 +14,16 @@ using Amazon.S3.Model;
 
 namespace FaceRecognitionLambda
 {
+    // ==============================================================================
+    // Beschreibung: Diese Klasse implementiert die Logik für die Gesichtserkennung.
+    // Sie reagiert auf S3-Events, analysiert Bilder mittels Amazon Rekognition
+    // auf Prominente und speichert das Ergebnis als JSON-Datei in einem Ziel-Bucket.
+    // ==============================================================================
     public class FaceRecognitionFunction
     {
+        // --------------------------------------
+        // Member-Variablen & Konfiguration
+        // --------------------------------------
         private static readonly JsonSerializerOptions JsonOpts = new() { WriteIndented = true };
 
         private readonly IAmazonRekognition _rekognition;
@@ -23,6 +31,9 @@ namespace FaceRecognitionLambda
         private readonly string _outputBucket;
         private readonly string _outputPrefix;
 
+        // --------------------------------------
+        // Konstruktor: Clients & Umgebungsvariablen
+        // --------------------------------------
         public FaceRecognitionFunction()
         {
             _rekognition = new AmazonRekognitionClient();
@@ -34,15 +45,24 @@ namespace FaceRecognitionLambda
             _outputPrefix = Environment.GetEnvironmentVariable("OUTPUT_PREFIX") ?? string.Empty;
         }
 
+        // --------------------------------------
+        // Lambda-Handler (Einstiegspunkt)
+        // --------------------------------------
         public async Task FunctionHandler(S3Event evnt, ILambdaContext context)
         {
             try
             {
+                // --------------------------------------
+                // Logging & Vorbereitung
+                // --------------------------------------
                 context.Logger.LogLine($"OUTPUT_BUCKET:  {_outputBucket}");
                 context.Logger.LogLine($"OUTPUT_PREFIX:  {_outputPrefix}");
 
                 foreach (var record in evnt.Records)
                 {
+                    // --------------------------------------
+                    // Extraktion der S3-Eingabedaten
+                    // --------------------------------------
                     var inputBucket = record.S3.Bucket.Name;
                     var rawKey      = record.S3.Object.Key;
 
@@ -52,6 +72,9 @@ namespace FaceRecognitionLambda
                     context.Logger.LogLine($"  Bucket: {inputBucket}");
                     context.Logger.LogLine($"  Key   : {inputKey}");
 
+                    // --------------------------------------
+                    // Aufruf des Rekognition-Dienstes
+                    // --------------------------------------
                     var recReq = new RecognizeCelebritiesRequest
                     {
                         Image = new Image
@@ -66,6 +89,9 @@ namespace FaceRecognitionLambda
 
                     var recRes = await _rekognition.RecognizeCelebritiesAsync(recReq);
 
+                    // --------------------------------------
+                    // Aufbereitung des Ergebnisses (Payload)
+                    // --------------------------------------
                     var payload = new
                     {
                         Source = new { Bucket = inputBucket, Key = inputKey },
@@ -84,6 +110,9 @@ namespace FaceRecognitionLambda
 
                     var json = JsonSerializer.Serialize(payload, JsonOpts);
 
+                    // --------------------------------------
+                    // Speichern des Ergebnisses in S3
+                    // --------------------------------------
                     var prefix  = string.IsNullOrWhiteSpace(_outputPrefix)
                                     ? string.Empty
                                     : (_outputPrefix.EndsWith("/") ? _outputPrefix : _outputPrefix + "/");
@@ -104,6 +133,9 @@ namespace FaceRecognitionLambda
             }
             catch (Exception ex)
             {
+                // --------------------------------------
+                // Fehlerbehandlung
+                // --------------------------------------
                 context.Logger.LogLine("ERROR: " + ex);
                 throw; 
             }
