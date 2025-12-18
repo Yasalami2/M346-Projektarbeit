@@ -10,16 +10,18 @@ Der Service besteht aus:
 - AWS Rekognition Celebrity API
 - Ausgangs Bucket für das Ergebnis als JSON
 
-Eine grafische Darstellung befindet sich im Ordner docs.
 
 ## Setup
 Die Installation erfolgt über das Init Script im Ordner scripts. Das Script erstellt alle AWS Komponenten und bereitet die Umgebung vor.
 
 ## Verwendung
-Nach der Installation kann ein Testbild über das Test Script hochgeladen werden. Das Script lädt nach der Erkennung die JSON Datei herunter und zeigt die Resultate an.
+Es kann ein Testbild über das Script hochgeladen werden. Das Script lädt nach der Erkennung die JSON Datei herunter und zeigt die Resultate an.
 
 ## Team
 Projektgruppe 2025 mit drei Mitgliedern.
+Gabriel Sarkis,
+Lionel Davatz,
+Alessandro Renzetti.
 
 ## Dokumentation
 Alle zusätzlichen Informationen befinden sich im Ordner docs. Dort sind Tests, Screenshots und die Reflexion abgelegt.
