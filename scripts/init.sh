@@ -136,3 +136,42 @@ if [ -n "$TEST_IMAGE" ]; then
 else
     echo "Kein Testbild gefunden."
 fi
+
+# --------------------------------------
+# Automatisierte Tests
+# --------------------------------------
+echo "--- Starte Tests ---"
+
+# Testfall 1: Bekannte Persönlichkeit (Positiv-Test)
+echo "[Test 1] Prüfe Promi-Erkennung (Promi.jpg)..."
+if [ -f "$BASE_DIR/images/Promi.jpg" ]; then
+    aws s3 cp "$BASE_DIR/images/Promi.jpg" "s3://$INPUT_BUCKET/Promi.jpg" > /dev/null
+    echo "Warte 20s auf Verarbeitung..."
+    sleep 20
+
+    if aws s3 cp "s3://$OUTPUT_BUCKET/result-Promi.jpg.json" ./test_success.json > /dev/null 2>&1; then
+        echo "Ergebnis Test 1 (Gefunden):"
+        grep -E "RecognizedName|ConfidenceScore" test_success.json | tr -d '", '
+    else
+        echo "FEHLER: Datei 'result-Promi.jpg.json' nicht im Out-Bucket gefunden."
+    fi
+else
+    echo "FEHLER: 'images/Promi.jpg' fehlt!"
+fi
+
+# Testfall 2: Unbekannte Person (Negativ-Test)
+echo -e "\n[Test 2] Prüfe unbekannte Person (noPromi.jpeg)..."
+if [ -f "$BASE_DIR/images/noPromi.jpeg" ]; then
+    aws s3 cp "$BASE_DIR/images/noPromi.jpeg" "s3://$INPUT_BUCKET/noPromi.jpeg" > /dev/null
+    sleep 20
+    
+    if aws s3 cp "s3://$OUTPUT_BUCKET/result-noPromi.jpeg.json" ./test_no_celeb.json > /dev/null 2>&1; then
+        echo "Ergebnis Test 2: (Sollte leeres CelebrityResults Array sein)"
+        cat test_no_celeb.json | grep "CelebrityResults" -A 2
+    fi
+else
+    echo "FEHLER: 'images/noPromi.jpeg' fehlt!"
+fi
+
+echo "--------------------------------------"
+echo "Test abgeschlossen."
