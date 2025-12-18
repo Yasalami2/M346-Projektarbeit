@@ -1,27 +1,47 @@
-# M346 FaceRecognition Projekt
+# Unser Testbericht
 
-## Übersicht
-Dieses Projekt erkennt bekannte Persönlichkeiten auf Fotos. Der Service verwendet zwei AWS S3 Buckets und eine AWS Lambda Funktion, die den Rekognition Celebrity Service aufruft. Sobald ein Bild in den Eingangs Bucket geladen wird, erstellt der Service eine JSON Datei mit den Analyseergebnissen im Ausgangs Bucket.
+**Wer hat getestet:** Gabriel Sarkis, Alessandro Renzetti, Lionel Davatz
 
-## Architektur
-Der Service besteht aus:
-- Eingangs Bucket für hochgeladene Bilder
-- Lambda Funktion für die Erkennung
-- AWS Rekognition Celebrity API
-- Ausgangs Bucket für das Ergebnis als JSON
+**Datum:** 19.12.2025  
 
+In diesem Bericht zeigen wir, dass unsere Gesichtserkennung in der AWS Cloud funktioniert.
 
-## Setup
-Die Installation erfolgt über das Init Script im Ordner scripts. Das Script erstellt alle AWS Komponenten und bereitet die Umgebung vor.
+---
 
-## Verwendung
-Es kann ein Testbild über das Script hochgeladen werden. Das Script lädt nach der Erkennung die JSON Datei herunter und zeigt die Resultate an.
+## 1. Was haben wir getestet?
 
-## Team
-Projektgruppe 2025 mit drei Mitgliedern.
-Gabriel Sarkis,
-Lionel Davatz,
-Alessandro Renzetti.
+| Nr. | Testfall | Ziel | Status |
+|:--- |:--- |:--- |:--- |
+| 1 | Star erkennen | Erkennt das System Jeff Bezos? | ✅ OK |
+| 2 | Normale Person | Erkennt das System, dass kein Star da ist? | ✅ OK |
+| 3 | Automatik | Läuft das ganze Script von alleine durch? | ✅ OK |
 
-## Dokumentation
-Alle zusätzlichen Informationen befinden sich im Ordner docs. Dort sind Tests, Screenshots und die Reflexion abgelegt.
+---
+
+## 2. Die Ergebnisse
+
+### Test 1: Der Star-Test (Jeff Bezos)
+Wir haben ein Bild von Jeff Bezos hochgeladen, um zu sehen, ob der AWS-Dienst ihn findet.
+
+* **Was ist passiert:** Das Script hat alles vorbereitet und das Bild hochgeladen.
+* **Ergebnis:** Wie man im Screenshot sieht, wurde Jeff Bezos sofort erkannt. Die Sicherheit liegt bei fast 100%.
+
+![Terminal Screenshot Jeff Bezos](./screenshots/PromiTest.png)
+
+**Fazit:** Der Test war erfolgreich. Die Verbindung zwischen unserem Script, Lambda und AWS Rekognition klappt.
+
+---
+
+### Test 2: Der "keinPromi"-Test (noPromi.jpeg)
+Wir haben auch ein Bild ohne Star getestet, damit das System keine falschen Namen erfindet.
+
+* **Ergebnis:** Das System zeigt "CelebrityCount: 0" an. Das ist genau richtig.
+
+![Terminal Screenshot keinPromi](./screenshots/Test.png)
+
+**Fazit:** Das System erkennt den Unterschied zwischen Promis und normalen Personen korrekt.
+
+---
+
+## 3. Unser Schlusswort
+Alles läuft vollautomatisch über unser `init.sh` Script. Man muss nichts von Hand machen und sieht das Ergebnis sofort im Terminal.
