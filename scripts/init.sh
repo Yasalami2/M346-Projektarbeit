@@ -23,7 +23,7 @@ echo "Out-Bucket:     $OUTPUT_BUCKET"
 echo "--------------------------------------"
 
 # --------------------------------------
-# Pfad-Ermittlung (Fix für Verzeichnis-Fehler)
+# Pfad-Ermittlung 
 # --------------------------------------
 # Ermittelt das Hauptverzeichnis des Projekts, egal von wo das Skript startet
 BASE_DIR=$(dirname "$(cd "$(dirname "$0")" && pwd)")
@@ -111,7 +111,7 @@ aws s3api put-bucket-notification-configuration \
     --region "$REGION"
 
 # --------------------------------------
-# Testlauf (Kriterium A7)
+# Testlauf 
 # --------------------------------------
 echo "--- Suche Testbild für Validierung ---"
 # Sucht das erste Bild im Projektordner
