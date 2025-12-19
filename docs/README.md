@@ -129,13 +129,15 @@ Insgesamt war das Projekt lehrreich, da ich nicht nur technische Grundlagen gele
 ---
 
 ### Alessandro Renzetti
-Das M346 FaceRecognition Projekt im AWS Learner Lab hat mir insgesamt sehr gut gefallen. Besonders spannend war für mich, dass wir am Ende eine funktionierende Lösung umgesetzt haben, die bekannte Persönlichkeiten auf Bildern erkennen kann.
+Das M346 FaceRecognition Projekt im AWS Learner Lab hat mir insgesamt sehr gut gefallen. Besonders spannend war für mich, dass wir am Ende eine funktionierende Lösung umgesetzt haben, die bekannte Persönlichkeiten auf Bildern erkennen kann. Durch die Kombination von S3 Buckets, einer Lambda Funktion und dem AWS Rekognition Celebrity Service habe ich besser verstanden, wie verschiedene AWS Services zusammenarbeiten und einen automatisierten Ablauf ermöglichen.
 
-Durch die Kombination von S3 Buckets, einer Lambda Funktion und dem AWS Rekognition Celebrity Service habe ich besser verstanden, wie verschiedene AWS Services zusammenarbeiten und einen automatisierten Ablauf ermöglichen. Am Anfang fand ich die Arbeit mit den Skripten eher kompliziert und teilweise schwer zu verstehen. Es war nicht immer sofort klar, was jedes Skript genau macht und wie die einzelnen Schritte zusammenhängen.
+Am Anfang fand ich die Arbeit mit den Skripten eher kompliziert und teilweise schwer zu verstehen. Es war nicht immer sofort klar, was jedes Script genau macht und wie die einzelnen Schritte zusammenhängen. Mit der Zeit und durch das praktische Arbeiten wurde der Aufbau jedoch immer verständlicher. Gegen Ende des Projekts konnte ich den Ablauf gut nachvollziehen und die Skripte gezielt einsetzen.
 
-Mit der Zeit und durch das praktische Arbeiten wurde der Aufbau jedoch immer verständlicher. Positiv empfand ich den automatisierten Ablauf des Systems, der nach dem manuellen Start selbstständig arbeitet und die Analyseergebnisse speichert.
+Positiv empfand ich den automatischen Ablauf des Systems. Sobald ein Bild im Eingangs Bucket hochgeladen wird, verarbeitet die Lambda Funktion das Bild und speichert das Ergebnis als JSON Datei im Ausgangs Bucket. Dadurch habe ich besser verstanden, wie solche Prozesse ohne manuelle Eingriffe umgesetzt werden und wie Cloud Services im Hintergrund zusammenspielen.
 
-Als Verbesserung für ein nächstes Projekt würde ich mir eine klarere Einführung zu den einzelnen Skripten wünschen. Kurze Erklärungen zu Zweck und Ablauf der Skripte würden den Einstieg erleichtern. Insgesamt war das Projekt sehr lehrreich und praxisnah. Ich konnte mein Wissen zu AWS deutlich erweitern und habe einen guten Einblick in den Einsatz von Cloud-Technologien erhalten.
+Als Verbesserung für ein nächstes Projekt würde ich mir eine klarere Einführung zu den einzelnen Skripten wünschen. Kurze Erklärungen zu Zweck und Ablauf der Skripte würden den Einstieg erleichtern, besonders zu Beginn des Projekts.
+
+Insgesamt war das Projekt sehr lehrreich und praxisnah. Ich konnte mein Wissen zu AWS, insbesondere zu S3, Lambda und Rekognition, deutlich erweitern. Das Projekt hat mein Interesse an Cloud Technologien weiter gestärkt und mir gezeigt, wie solche Services in der Praxis sinnvoll eingesetzt werden können.
 
 ## 9. Quellen
 - AWS Rekognition – Recognizing Celebrities  
