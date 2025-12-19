@@ -59,43 +59,39 @@ Ziel der Tests war es zu prüfen, ob ein Foto korrekt analysiert wird und das An
 
 | Kriterium              | Beschreibung |
 |------------------------|--------------|
-| Testdatum              | 19.12.2025 |
+| Datum & Uhrzeit:       | 19.12.2025 23:00 Uhr |
 | Testperson             | Gabriel Sarkis |
 | Ausgangslage           | Mehrere Fotos befinden sich im vorgesehenen Ordner im Repository |
-| Testschritte           | Ausführen des Initialisierungsskripts |
-| Erwartetes Ergebnis    | Die bekannte Persönlichkeit wird erkannt |
-| Tatsächliches Ergebnis | Jeff Bezos wurde mit hoher Wahrscheinlichkeit erkannt |
-| Testergebnis           | Erfolgreich |
+| In diesem Abschnitt zeigen wir, dass unsere Gesichtserkennung in der AWS Cloud funktioniert.|
+--- 
 
-**Fazit Testfall 1:**  
-Der Testfall verlief erfolgreich. Die bekannte Persönlichkeit wurde korrekt erkannt 
-und mit einer sehr hohen Wahrscheinlichkeit identifiziert.
+## 1. Was haben wir getestet?
 
----
-
-### Testfall 2: Foto ohne bekannte Persönlichkeit
-
-| Kriterium              | Beschreibung |
-|------------------------|--------------|
-| Testdatum              | 19.12.2025 |
-| Testperson             | Gabriel Sarkis |
-| Ausgangslage           | Foto ohne bekannte Persönlichkeit im Ordner vorhanden |
-| Testschritte           | Ausführen des Initialisierungsskripts |
-| Erwartetes Ergebnis    | Es wird keine bekannte Persönlichkeit erkannt |
-| Tatsächliches Ergebnis | CelebrityCount: 0 |
-| Testergebnis           | Erfolgreich |
-
-**Fazit Testfall 2:**  
-Der Testfall verlief erfolgreich. Das System erkannte korrekt, dass keine bekannte Persönlichkeit vorhanden ist.
+| ID. | Testfall | Ziel | Status |
+|:--- |:--- |:--- |:--- |
+| T1 | Promi erkennen | Erkennt das System Jeff Bezos? | ✅ OK |
+| T2 | Normale Person | Erkennt das System, dass kein Promi da ist? | ✅ OK |
+| T3 | Automatik | Läuft das ganze Script von alleine durch? | ✅ OK |
 
 ---
 
-![Testfälle 1 & 2 – Terminal-Ausgabe](screenshots/Test.png)
+### Testfall T1: Der Promi-Test (Jeff Bezos)
+Wir haben ein Bild von Jeff Bezos hochgeladen, um zu sehen, ob der AWS-Dienst ihn findet.
+* **Was ist passiert:** Das Script hat die Infrastruktur geprüft und das Bild automatisch hochgeladen.
+* **Ergebnis:** Jeff Bezos wurde sofort erkannt (Wahrscheinlichkeit: 99.99%).
+* **Beweis (Screenshot):**
+![Screenshot Terminal Jeff Bezos](./screenshots/PromiTest.png)
+* **Fazit:** Der Test war erfolgreich. Die Verbindung zwischen Script, Lambda und Rekognition klappt einwandfrei.
+* **Massnahmen/Empfehlungen:** Keine technischen Korrekturen nötig. Empfehlung: Bilder mit hoher Auflösung verwenden, um die Confidence-Rate hoch zu halten.
 
-**Abbildung 2:** Terminal-Ausgabe eines vollständigen Testlaufs.
-Das Initialisierungsskript analysiert zuerst ein Bild mit einer bekannten Persönlichkeit 
-(Jeff Bezos) und erkennt diese mit sehr hoher Wahrscheinlichkeit. Anschliessend wird ein Bild 
-ohne bekannte Persönlichkeit verarbeitet, wobei korrekt kein Treffer erkannt wird.
+---
+### Testfall T2: Der "keinPromi"-Test (NoPromi.jpeg)
+Wir haben ein Bild ohne bekannte Persönlichkeit getestet, um Fehlalarme zu vermeiden.
+* **Ergebnis:** Das System zeigt korrekt "CelebrityResults": [] an, was bedeuted dass es "leer" ist und daher nichts gefunden hat.
+* **Beweis (Screenshot):**
+![Screenshot Terminal noPromi](./screenshots/Test.png)
+* **Fazit:** Das System erkennt den Unterschied zwischen Prominenten und normalen Personen korrekt.
+* **Massnahmen/Empfehlungen:** Es sollte darauf geachtet werden, dass das Gesicht frontal und ohne starke Schatten fotografiert wird, damit die AWS-Rekognition die Merkmale optimal mit der Promi-Datenbank abgleichen kann.
 
 ---
 
@@ -118,13 +114,12 @@ Als Verbesserung für ein nächstes Projekt würde ich mir eine bessere Einführ
 ---
 
 ### Gabriel Sarkis
-In diesem Projekt habe ich gelernt, wie man mit AWS arbeitet und wie die Services S3 und Lambda zusammen funktionieren. Besonders hilfreich war zu sehen, wie ein automatischer Ablauf aufgebaut ist, bei dem ein Verarbeitungsprozess gestartet wird und danach ein Resultat gespeichert wird. Dadurch habe ich besser verstanden, wie Cloud-Lösungen in der Praxis eingesetzt werden.
+In diesem Projekt habe ich gelernt, wie man mit AWS arbeitet und wie die Services S3 und Lambda zusammen funktionieren. Besonders hilfreich war zu sehen, wie ein automatischer Ablauf aufgebaut ist, bei dem ein Upload in ein Bucket eine Funktion auslöst und danach ein Resultat gespeichert wird. Dadurch habe ich besser verstanden, wie Cloud-Lösungen in der Praxis eingesetzt werden.
 
-Positiv war auch die Zusammenarbeit im Team. Wir konnten uns gegenseitig helfen, Probleme besprechen und Lösungen gemeinsam suchen. Wenn jemand nicht weiterkam, haben wir versucht, das Problem zusammen zu analysieren, was den Lernprozess verbessert hat.
+Positiv war auch die Zusammenarbeit im Team. Wir konnten uns gegenseitig helfen, Probleme besprechen und Lösungen gemeinsam suchen. Wenn jemand nicht weiterkam, haben wir versucht, das Problem zusammen zu analysieren. Das hat den Lernprozess verbessert.
 
-Verbesserungen sehe ich vor allem in der Planung. Die Einschränkungen im AWS Academy Lab, vor allem bei den Berechtigungen, haben uns mehr Zeit gekostet als erwartet. Für ein nächstes Projekt würde ich diese Punkte früher abklären, damit realistischer geplant werden kann.
-
-Insgesamt war das Projekt lehrreich, da ich nicht nur technische Grundlagen gelernt habe, sondern auch gemerkt habe, wie wichtig gute Planung und Kommunikation im Team sind.
+Verbesserungen sehe ich vor allem in der Planung. Die Einschränkungen im AWS Academy Lab, vor allem bei den Berechtigungen, haben uns mehr Zeit gekostet als erwartet. Für ein nächstes Projekt würde ich diese Punkte früher abklären, damit man realistischer planen kann.
+Insgesamt war das Projekt lehrreich, weil ich nicht nur technische Grundlagen gelernt habe, sondern auch gemerkt habe, wie wichtig gute Planung und Kommunikation im Team sind.
 
 ---
 
