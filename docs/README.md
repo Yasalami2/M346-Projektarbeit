@@ -13,7 +13,7 @@ Das Projekt wurde in einer Dreiergruppe durchgeführt. Alle Konfigurationsdateie
 
 ## 3. Architektur und Aufbau
 
-![Architekturdiagramm des Face Recognition Services](docs/screenshots/Projekt-Architecture.png)
+![Architekturdiagramm des Face Recognition Services](/screenshots/Projekt-Architecture.png)
 
 **Abbildung 1:** Das Architekturdiagramm zeigt den Ablauf des Face Recognition Services.  
 Der Verarbeitungsprozess wird durch das manuelle Ausführen eines Skripts gestartet. 
@@ -90,7 +90,7 @@ Der Testfall verlief erfolgreich. Das System erkannte korrekt, dass keine bekann
 
 ---
 
-![Testfälle 1 & 2 – Terminal-Ausgabe](docs/screenshots/Test.png)
+![Testfälle 1 & 2 – Terminal-Ausgabe](/screenshots/Test.png)
 
 **Abbildung 2:** Terminal-Ausgabe eines vollständigen Testlaufs.
 Das Initialisierungsskript analysiert zuerst ein Bild mit einer bekannten Persönlichkeit 
