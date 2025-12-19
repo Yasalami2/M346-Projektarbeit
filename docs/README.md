@@ -57,43 +57,37 @@ Ziel der Tests war es zu prüfen, ob ein Foto korrekt analysiert wird und das An
 
 ### Testfall 1: Erkennung einer bekannten Persönlichkeit (Jeff Bezos)
 
-| Kriterium              | Beschreibung |
-|------------------------|--------------|
-| Datum & Uhrzeit:       | 19.12.2025 23:00 Uhr |
-| Testperson             | Gabriel Sarkis |
-| Ausgangslage           | Mehrere Fotos befinden sich im vorgesehenen Ordner im Repository |
-| In diesem Abschnitt zeigen wir, dass unsere Gesichtserkennung in der AWS Cloud funktioniert.|
---- 
+| Kriterium        | Beschreibung |
+|------------------|--------------|
+| Datum & Uhrzeit  | 19.12.2025 23:00 Uhr |
+| Testperson       | Gabriel Sarkis |
+| Ausgangslage     | Mehrere Fotos befinden sich im vorgesehenen Ordner im Repository |
 
-## 1. Was haben wir getestet?
+In diesem Abschnitt zeigen wir, dass unsere Gesichtserkennung in der AWS Cloud funktioniert.
+
+### Übersicht der durchgeführten Tests
 
 | ID. | Testfall | Ziel | Status |
 |:--- |:--- |:--- |:--- |
 | T1 | Promi erkennen | Erkennt das System Jeff Bezos? | ✅ OK |
 | T2 | Normale Person | Erkennt das System, dass kein Promi da ist? | ✅ OK |
-| T3 | Automatik | Läuft das ganze Script von alleine durch? | ✅ OK |
-
----
 
 ### Testfall T1: Der Promi-Test (Jeff Bezos)
 Wir haben ein Bild von Jeff Bezos hochgeladen, um zu sehen, ob der AWS-Dienst ihn findet.
-* **Was ist passiert:** Das Script hat die Infrastruktur geprüft und das Bild automatisch hochgeladen.
+* **Was ist passiert:** Das Skript hat die Infrastruktur geprüft und das Bild automatisch hochgeladen.
 * **Ergebnis:** Jeff Bezos wurde sofort erkannt (Wahrscheinlichkeit: 99.99%).
 * **Beweis (Screenshot):**
 ![Screenshot Terminal Jeff Bezos](./screenshots/PromiTest.png)
-* **Fazit:** Der Test war erfolgreich. Die Verbindung zwischen Script, Lambda und Rekognition klappt einwandfrei.
+* **Fazit:** Der Test war erfolgreich. Die Verbindung zwischen Skript, Lambda und Rekognition klappt einwandfrei.
 * **Massnahmen/Empfehlungen:** Keine technischen Korrekturen nötig. Empfehlung: Bilder mit hoher Auflösung verwenden, um die Confidence-Rate hoch zu halten.
 
----
 ### Testfall T2: Der "keinPromi"-Test (NoPromi.jpeg)
 Wir haben ein Bild ohne bekannte Persönlichkeit getestet, um Fehlalarme zu vermeiden.
-* **Ergebnis:** Das System zeigt korrekt "CelebrityResults": [] an, was bedeuted dass es "leer" ist und daher nichts gefunden hat.
+* **Ergebnis:** Das System zeigt korrekt "CelebrityResults": [] an, was bedeutet dass es "leer" ist und daher nichts gefunden hat.
 * **Beweis (Screenshot):**
 ![Screenshot Terminal noPromi](./screenshots/Test.png)
 * **Fazit:** Das System erkennt den Unterschied zwischen Prominenten und normalen Personen korrekt.
 * **Massnahmen/Empfehlungen:** Es sollte darauf geachtet werden, dass das Gesicht frontal und ohne starke Schatten fotografiert wird, damit die AWS-Rekognition die Merkmale optimal mit der Promi-Datenbank abgleichen kann.
-
----
 
 **Gesamtfazit:**  
 Alle durchgeführten Tests verliefen erfolgreich. Der Face Recognition Service erkennt bekannte Persönlichkeiten zuverlässig 
@@ -126,7 +120,7 @@ Insgesamt war das Projekt lehrreich, weil ich nicht nur technische Grundlagen ge
 ### Alessandro Renzetti
 Das M346 FaceRecognition Projekt im AWS Learner Lab hat mir insgesamt sehr gut gefallen. Besonders spannend war für mich, dass wir am Ende eine funktionierende Lösung umgesetzt haben, die bekannte Persönlichkeiten auf Bildern erkennen kann. Durch die Kombination von S3 Buckets, einer Lambda Funktion und dem AWS Rekognition Celebrity Service habe ich besser verstanden, wie verschiedene AWS Services zusammenarbeiten und einen automatisierten Ablauf ermöglichen.
 
-Am Anfang fand ich die Arbeit mit den Skripten eher kompliziert und teilweise schwer zu verstehen. Es war nicht immer sofort klar, was jedes Script genau macht und wie die einzelnen Schritte zusammenhängen. Mit der Zeit und durch das praktische Arbeiten wurde der Aufbau jedoch immer verständlicher. Gegen Ende des Projekts konnte ich den Ablauf gut nachvollziehen und die Skripte gezielt einsetzen.
+Am Anfang fand ich die Arbeit mit den Skripten eher kompliziert und teilweise schwer zu verstehen. Es war nicht immer sofort klar, was jedes Skript genau macht und wie die einzelnen Schritte zusammenhängen. Mit der Zeit und durch das praktische Arbeiten wurde der Aufbau jedoch immer verständlicher. Gegen Ende des Projekts konnte ich den Ablauf gut nachvollziehen und die Skripte gezielt einsetzen.
 
 Positiv empfand ich den automatischen Ablauf des Systems. Sobald ein Bild im Eingangs Bucket hochgeladen wird, verarbeitet die Lambda Funktion das Bild und speichert das Ergebnis als JSON Datei im Ausgangs Bucket. Dadurch habe ich besser verstanden, wie solche Prozesse ohne manuelle Eingriffe umgesetzt werden und wie Cloud Services im Hintergrund zusammenspielen.
 
@@ -151,4 +145,3 @@ Insgesamt war das Projekt sehr lehrreich und praxisnah. Ich konnte mein Wissen z
   https://moodle.gbssg.ch/
 
 - KI-Unterstützung zur Strukturierung und Fehlerbehebung
-
