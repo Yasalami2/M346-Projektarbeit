@@ -1,8 +1,17 @@
 #!/bin/bash
 # ==============================================================================
+# PROJEKT:      M346 - Face Recognition Service
+# DATEI:        setup_input_bucket.sh
+# AUTOR:        Alessandro Renzetti
+# DATUM:        11.12.2025
+# QUELLEN:      
+#   - AWS Rekognition Docs: https://docs.aws.amazon.com/rekognition/latest/dg/celebrities.html
+#   - Moodle GBS St. Gallen: https://moodle.gbssg.ch/course/view.php?id=188
+#   - KI-Unterstützung: Gemini AI (Strukturierung & Fehlerbehebung)
+# ------------------------------------------------------------------------------
 # Beschreibung: Dieses Skript richtet den Input-Bucket für die Gesichtserkennung ein.
 # Es definiert die Region und den Bucket-Namen, erstellt den Bucket in AWS S3
-# und listet anschließend alle Buckets auf, die 'm346' im Namen enthalten.
+# und listet anschliessend alle Buckets auf, die 'm346' im Namen enthalten.
 # ==============================================================================
 set -e
 

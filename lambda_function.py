@@ -4,8 +4,17 @@ import logging
 import boto3
 
 # ==============================================================================
+# PROJEKT:      M346 - Face Recognition Service
+# DATEI:        lamda_function.py
+# AUTOR:        Gabriel Sarkis
+# DATUM:        18.12.2025
+# QUELLEN:      
+#   - AWS Rekognition Docs: https://docs.aws.amazon.com/rekognition/latest/dg/celebrities.html
+#   - Moodle GBS St. Gallen: https://moodle.gbssg.ch/course/view.php?id=188
+#   - KI-Unterstützung: Gemini AI (Strukturierung & Fehlerbehebung)
+# ------------------------------------------------------------------------------
 # Beschreibung: Dieses Skript implementiert die Lambda-Funktion für die Prominentenerkennung.
-# Es nutzt Amazon Rekognition zur Analyse von Bildern, extrahiert Metadaten
+# Es nutzt Amazon Rekognition zur Analyse von Bildern, extrahiert Daten
 # und speichert die Ergebnisse als JSON-Datei im definierten Output-Bucket.
 # ==============================================================================
 

@@ -1,8 +1,15 @@
 #!/bin/bash
 # ==============================================================================
-# Beschreibung: Dieses Skript erstellt den Output-Bucket für die Gesichtserkennung.
-# Es setzt die Region auf 'eu-central-1', definiert den Namen des Ziel-Buckets
-# und erstellt diesen in AWS S3, gefolgt von einer Überprüfung der existierenden Buckets.
+# PROJEKT:      M346 - Face Recognition Service
+# DATEI:        create-output-bucket.sh
+# AUTOR:        Alessandro Renzetti
+# DATUM:        11.12.2025
+# QUELLEN:      
+#   - AWS Rekognition Docs: https://docs.aws.amazon.com/rekognition/latest/dg/celebrities.html
+#   - Moodle GBS St. Gallen: https://moodle.gbssg.ch/course/view.php?id=188
+#   - KI-Unterstützung: Gemini AI (Strukturierung & Fehlerbehebung)
+# ------------------------------------------------------------------------------
+# Beschreibung: Richtet den S3-Output-Bucket für die Gesichtserkennung ein.
 # ==============================================================================
 set -e
 

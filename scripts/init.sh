@@ -1,8 +1,17 @@
 #!/bin/bash
 # ==============================================================================
+# PROJEKT:      M346 - Face Recognition Service
+# DATEI:        init.sh
+# AUTOR:        Gabriel Sarkis & Alessandro Renzetti & Lionel Davatz
+# DATUM:        11.12.2025
+# QUELLEN:      
+#   - AWS Rekognition Docs: https://docs.aws.amazon.com/rekognition/latest/dg/celebrities.html
+#   - Moodle GBS St. Gallen: https://moodle.gbssg.ch/course/view.php?id=188
+#   - KI-Unterstützung: Gemini AI (Strukturierung & Fehlerbehebung)
+# ------------------------------------------------------------------------------
 # Beschreibung: Dieses Skript richtet den Face Recognition Service ein.
 # Es erstellt die nötigen Buckets, lädt die Lambda-Funktion hoch,
-# setzt den Trigger und testet den Ablauf mit einem Bild.
+# setzt den Trigger und testet den Ablauf.
 # ==============================================================================
 set -e
 
@@ -25,7 +34,6 @@ echo "--------------------------------------"
 # --------------------------------------
 # Pfad-Ermittlung 
 # --------------------------------------
-# Ermittelt das Hauptverzeichnis des Projekts, egal von wo das Skript startet
 BASE_DIR=$(dirname "$(cd "$(dirname "$0")" && pwd)")
 echo "Projekt-Verzeichnis: $BASE_DIR"
 
@@ -48,7 +56,6 @@ echo "Buckets bereit."
 # ZIP-Datei für Lambda erstellen
 # --------------------------------------
 echo "Suche Quellcode und erstelle ZIP..."
-# Findet die Datei im gesamten Projektbaum ab dem Hauptverzeichnis
 PY_FILE=$(find "$BASE_DIR" -name "lambda_function.py" | head -n 1)
 
 if [ -z "$PY_FILE" ]; then
@@ -56,7 +63,6 @@ if [ -z "$PY_FILE" ]; then
     exit 1
 fi
 
-# Erstellt das ZIP-File im aktuellen Verzeichnis (-j ignoriert die Pfadstruktur)
 zip -j "$ZIP_FILE" "$PY_FILE" > /dev/null
 echo "ZIP erstellt: $ZIP_FILE"
 
@@ -114,7 +120,6 @@ aws s3api put-bucket-notification-configuration \
 # Testlauf 
 # --------------------------------------
 echo "--- Suche Testbild für Validierung ---"
-# Sucht das erste Bild im Projektordner
 TEST_IMAGE=$(find "$BASE_DIR" -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" | head -n 1)
 
 if [ -n "$TEST_IMAGE" ]; then
