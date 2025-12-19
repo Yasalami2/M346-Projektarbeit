@@ -1,8 +1,8 @@
 # Unser Testbericht
 
-**Wer hat getestet:** Gabriel Sarkis, Alessandro Renzetti, Lionel Davatz
+**Wer hat getestet:** Gabriel Sarkis
 
-**Datum:** 19.12.2025  
+**Datum & Uhrzeit:** 19.12.2025 23:00 Uhr
 
 In diesem Bericht zeigen wir, dass unsere Gesichtserkennung in der AWS Cloud funktioniert.
 
@@ -12,34 +12,31 @@ In diesem Bericht zeigen wir, dass unsere Gesichtserkennung in der AWS Cloud fun
 
 | ID. | Testfall | Ziel | Status |
 |:--- |:--- |:--- |:--- |
-| T1 | Star erkennen | Erkennt das System Jeff Bezos? | ✅ OK |
-| T2 | Normale Person | Erkennt das System, dass kein Star da ist? | ✅ OK |
+| T1 | Promi erkennen | Erkennt das System Jeff Bezos? | ✅ OK |
+| T2 | Normale Person | Erkennt das System, dass kein Promi da ist? | ✅ OK |
 | T3 | Automatik | Läuft das ganze Script von alleine durch? | ✅ OK |
 
 ---
 
-## 2. Die Ergebnisse
+## 2. Die Ergebnisse im Detail
 
-### Test 1: Der Star-Test (Jeff Bezos)
+### Testfall T1: Der Promi-Test (Jeff Bezos)
 Wir haben ein Bild von Jeff Bezos hochgeladen, um zu sehen, ob der AWS-Dienst ihn findet.
-
-* **Was ist passiert:** Das Script hat alles vorbereitet und das Bild hochgeladen.
-* **Ergebnis:** Wie man im Screenshot sieht, wurde Jeff Bezos sofort erkannt. Die Sicherheit liegt bei fast 100%.
-
-![Terminal Screenshot Jeff Bezos](./screenshots/PromiTest.png)
-
-**Fazit:** Der Test war erfolgreich. Die Verbindung zwischen unserem Script, Lambda und AWS Rekognition klappt.
+* **Was ist passiert:** Das Script hat die Infrastruktur geprüft und das Bild automatisch hochgeladen.
+* **Ergebnis:** Jeff Bezos wurde sofort erkannt (Wahrscheinlichkeit: 99.99%).
+* **Beweis (Screenshot):**
+![Screenshot Terminal Jeff Bezos](./screenshots/PromiTest.png)
+* **Fazit:** Der Test war erfolgreich. Die Verbindung zwischen Script, Lambda und Rekognition klappt einwandfrei.
+* **Massnahmen/Empfehlungen:** Keine technischen Korrekturen nötig. Empfehlung: Bilder mit hoher Auflösung verwenden, um die Confidence-Rate hoch zu halten.
 
 ---
-
-### Test 2: Der "keinPromi"-Test (noPromi.jpeg)
-Wir haben auch ein Bild ohne Star getestet, damit das System keine falschen Namen erfindet.
-
-* **Ergebnis:** Das System zeigt "CelebrityCount: 0" an. Das ist genau richtig.
-
-![Terminal Screenshot keinPromi](./screenshots/Test.png)
-
-**Fazit:** Das System erkennt den Unterschied zwischen Promis und normalen Personen korrekt.
+### Testfall T2: Der "keinPromi"-Test (Test.jpeg)
+Wir haben ein Bild ohne bekannte Persönlichkeit getestet, um Fehlalarme zu vermeiden.
+* **Ergebnis:** Das System zeigt korrekt "CelebrityResults": [] an, was bedeuted dass es "leer" ist und daher nichts gefunden hat.
+* **Beweis (Screenshot):**
+![Screenshot Terminal noPromi](./screenshots/Test.png)
+* **Fazit:** Das System erkennt den Unterschied zwischen Prominenten und normalen Personen korrekt.
+* **Massnahmen/Empfehlungen:** Es sollte darauf geachtet werden, dass das Gesicht frontal und ohne starke Schatten fotografiert wird, damit die AWS-Rekognition die Merkmale optimal mit der Promi-Datenbank abgleichen kann.
 
 ---
 
