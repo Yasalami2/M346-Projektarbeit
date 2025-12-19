@@ -1,7 +1,7 @@
 #!/bin/bash
 # ==============================================================================
 # PROJEKT:      M346 - Face Recognition Service
-# DATEI:        setup_input_bucket.sh
+# DATEI:        create-input-bucket.sh
 # AUTOR:        Alessandro Renzetti
 # DATUM:        11.12.2025
 # QUELLEN:      
